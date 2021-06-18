@@ -22,6 +22,15 @@ end
 
 ## set annual growth rates year-by-year
 
+# growth rate function has three main components:
+# 1) decaying exponential that rises from -4 and approaches +4
+# 2) logistic that starts at 0 and starts to drop toward -4 around 15-20 Years
+# 3) gaussian noise with a std dev of 0.25
+
+# this is to capture fairly rapid death early on,
+# turning to rapid growth as things stabilize and people make babies,
+# and eventually slowing as some semblance of modernity re-establishes
+
 growth_rates = [(8 * (1 - exp(-0.5 * year)) - 4) + (4 * (sigmoid(-(year - 20)) - 1)) for year ∈ years]
 add_gauss!(growth_rates, 0.25)
 
